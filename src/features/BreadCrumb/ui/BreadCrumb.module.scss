@@ -1,0 +1,16 @@
+.main {
+  padding-top: 20px;
+
+  .link {
+    line-height: 1.7;
+  }
+
+  & :global(.ant-breadcrumb-separator) {
+    margin: 0 4px;
+  }
+
+  & li:last-child a {
+    pointer-events: none;
+    color: rgba(66, 66, 66, 0.85);
+  }
+}

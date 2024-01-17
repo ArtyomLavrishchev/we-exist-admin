@@ -1,0 +1,19 @@
+.headerText {
+  color: #fff;
+}
+
+.menu {
+  & :global(.ant-menu-item) {
+    display: flex;
+    align-items: center;
+  }
+  & :global(.ant-menu-item-icon) {
+    color: rgba(255, 255, 255, 0.65);
+  }
+}
+
+.noticeIcon {
+  & svg {
+    font-size: 18px;
+  }
+}
