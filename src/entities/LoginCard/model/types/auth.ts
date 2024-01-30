@@ -1,12 +1,12 @@
 import { AxiosError } from 'axios';
 
 export interface ILoginPayload {
-  phone: string;
+  email: string;
+  password: string;
 }
 
 export interface IAuthResponse {
-  refresh: string;
-  access: string;
+  accessToken: string;
 }
 
 export type IRefreshResponse = Omit<IAuthResponse, 'refresh'>;

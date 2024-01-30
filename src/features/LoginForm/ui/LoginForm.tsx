@@ -16,18 +16,24 @@ export const LoginForm: FC<ILoginForm> = ({ onSubmit }) => {
       layout="vertical"
     >
       <Form.Item
-        label="Телефон"
-        name="phone"
+        label="Email"
+        name="email"
         rules={[
           { required: true, message: 'Обязательное поле' },
           {
-            pattern:
-              /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/gi,
-            message: 'Некорректный номер телефона',
+            pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/gi,
+            message: 'Некорректный email',
           },
         ]}
       >
-        <Input.Password maxLength={12} data-testid="pass" />
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Пароль"
+        name="password"
+        rules={[{ required: true, message: 'Обязательное поле' }]}
+      >
+        <Input.Password />
       </Form.Item>
       <Form.Item>
         <Button data-testid="login_btn" type="primary" htmlType="submit" block>

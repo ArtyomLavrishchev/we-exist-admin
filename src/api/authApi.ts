@@ -9,12 +9,11 @@ import Api from './index';
 
 const authApi = {
   login(payload: ILoginPayload) {
-    return Api.post<IAuthResponse>('/register-or-login/', payload);
+    return Api.post<IAuthResponse>('/auth/login', payload);
   },
-  refresh(refresh: string) {
-    return axios.post<IRefreshResponse>(
-      `${import.meta.env.VITE_BACKEND_URL || ''}/token/refresh/`,
-      { refresh }
+  refresh() {
+    return axios.get<IRefreshResponse>(
+      `${import.meta.env.VITE_BACKEND_URL || ''}/auth/refresh-tokens`
     );
   },
 };

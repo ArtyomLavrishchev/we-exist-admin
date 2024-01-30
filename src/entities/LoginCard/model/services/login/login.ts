@@ -4,24 +4,23 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { openNotification } from 'entities/LoginCard/model/utils';
 import { ILoginPayload, ISuccess, loadInitialData } from 'entities/LoginCard';
 
-export const registerOrLogin = createAsyncThunk<
+export const login = createAsyncThunk<
   ISuccess,
   ILoginPayload,
   { rejectValue: AxiosError }
 >(
   'auth/login',
-  async ({ phone }: ILoginPayload, { rejectWithValue, dispatch }) => {
+  async (payload: ILoginPayload, { rejectWithValue, dispatch }) => {
     try {
-      const { data } = await authApi.login({ phone });
-      const { access, refresh } = data;
-      localStorage.setItem('access_token', access);
-      localStorage.setItem('refresh_token', refresh);
+      const { data } = await authApi.login(payload);
+      const { accessToken } = data;
+      localStorage.setItem('access_token', accessToken);
       const success = {
         status: '200',
         text: 'Успешная авторизация',
       };
       const tokenData: { user_id: string } = JSON.parse(
-        atob(access.split('.')[1])
+        atob(accessToken.split('.')[1])
       );
       await dispatch(loadInitialData(tokenData.user_id));
       openNotification(success.text, 'topRight', '', 'success');

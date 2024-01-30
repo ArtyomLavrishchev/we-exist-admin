@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authCheck, registerOrLogin, logout } from 'entities/LoginCard';
+import { authCheck, login, logout } from 'entities/LoginCard';
 import { IAuthSchema } from 'entities/LoginCard/model/types/auth';
 
 const initialState: IAuthSchema = {
-  isAuth: true,
+  isAuth: false,
   isLoading: false,
   error: null,
   success: null,
@@ -20,15 +20,15 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerOrLogin.pending, (state) => {
+      .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerOrLogin.fulfilled, (state, { payload }) => {
+      .addCase(login.fulfilled, (state, { payload }) => {
         state.isAuth = true;
         state.isLoading = false;
         state.success = payload;
       })
-      .addCase(registerOrLogin.rejected, (state, { payload }) => {
+      .addCase(login.rejected, (state, { payload }) => {
         state.error =
           payload || ({ message: 'Ошибка авторизации' } as AxiosError);
         state.isLoading = false;

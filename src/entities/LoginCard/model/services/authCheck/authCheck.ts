@@ -15,8 +15,7 @@ export const authCheck = createAsyncThunk<
   { rejectValue: string }
 >('auth/authCheck', async (_, { rejectWithValue, dispatch }) => {
   try {
-    const refresh = localStorage.getItem('refresh_token');
-    const response = await authApi.refresh(refresh || '');
+    const response = await authApi.refresh();
     if (response.data.access) {
       const tokenData = JSON.parse(
         window.atob(response.data.access.split('.')[1])

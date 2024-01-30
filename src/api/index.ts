@@ -12,6 +12,7 @@ interface IError extends AxiosError {
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
 });
 
 instance.defaults.headers.post['Content-Type'] = 'application/json';
@@ -46,7 +47,7 @@ instance.interceptors.response.use(
       try {
         const refresh = localStorage.getItem('refresh_token');
         if (refresh) {
-          const response = await authApi.refresh(refresh || '');
+          const response = await authApi.refresh();
           localStorage.setItem('access_token', response.data.access);
           return instance.request(originalRequest);
         }
