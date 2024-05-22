@@ -1,7 +1,7 @@
 import {
   IAuthResponse,
   ILoginPayload,
-  IRefreshResponse,
+  IRegisterPayload,
 } from 'entities/LoginCard';
 import axios from 'axios';
 
@@ -11,9 +11,16 @@ const authApi = {
   login(payload: ILoginPayload) {
     return Api.post<IAuthResponse>('/auth/login', payload);
   },
+  register(payload: IRegisterPayload) {
+    return Api.post<IAuthResponse>('/auth/register', payload);
+  },
+  logout() {
+    return Api.get('/auth/logout');
+  },
   refresh() {
-    return axios.get<IRefreshResponse>(
-      `${import.meta.env.VITE_BACKEND_URL || ''}/auth/refresh-tokens`
+    return axios.get<IAuthResponse>(
+      `${import.meta.env.VITE_BACKEND_URL || ''}/auth/refresh-tokens`,
+      { withCredentials: true }
     );
   },
 };

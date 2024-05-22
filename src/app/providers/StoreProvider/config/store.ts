@@ -5,6 +5,7 @@ import {
   combineReducers,
 } from '@reduxjs/toolkit';
 import instance from 'api/index';
+import { ordersReducer } from 'entities/Orders';
 import { authReducer } from 'entities/LoginCard';
 import { accountsReducer } from 'entities/Accounts';
 
@@ -16,6 +17,7 @@ const logger: Middleware = () => (next) => (action) => next(action);
 const rootReducers = combineReducers({
   auth: authReducer,
   accounts: accountsReducer,
+  orders: ordersReducer,
 });
 export function createReduxStore() {
   const extraArg: IThunkExtraArg = {

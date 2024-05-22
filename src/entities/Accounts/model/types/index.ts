@@ -1,26 +1,29 @@
 import { AxiosError } from 'axios';
 
 export interface IAccount {
-  username: string;
-  phone: string;
-  email: string | null;
-  first_name: string | null;
-  last_name: string | null;
-  middle_name: string | null;
-  legal_state: string;
-  inn: string | null;
-  company: string | null;
-  tariff: string;
-  active_from: string;
-  active_to: string | null;
-  payment_prolongation: boolean;
-  created_at: string;
-  updated_at: string | null;
+  id: string;
+  roles: string[];
+  updatedAt: string;
+  email: string;
+}
+
+export interface IUpdateUserPayload {
+  isBlocked?: boolean;
+  roles?: string[];
+  id: string;
+}
+
+export interface IAccounts {
+  data: IAccount[];
+
+  limit?: number;
+  page?: number;
+  total?: number;
+  totalPages?: number;
 }
 
 export interface IAccountsSchema {
-  accounts: IAccount[] | null;
-  clients: IAccount[] | null;
+  accounts: IAccounts | null;
   userAccount: IAccount | null;
   error: AxiosError | null;
   isLoading: boolean;

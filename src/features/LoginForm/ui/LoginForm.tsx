@@ -36,7 +36,7 @@ export const LoginForm: FC<ILoginForm> = ({ onSubmit }) => {
         <Input.Password />
       </Form.Item>
       <Form.Item>
-        <Button data-testid="login_btn" type="primary" htmlType="submit" block>
+        <Button className={styles.btn} data-testid="login_btn" type="primary" htmlType="submit" block>
           Войти
         </Button>
       </Form.Item>

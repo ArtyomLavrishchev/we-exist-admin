@@ -5,6 +5,11 @@ export interface ILoginPayload {
   password: string;
 }
 
+export interface IRegisterPayload {
+  email: string;
+  password: string;
+}
+
 export interface IAuthResponse {
   accessToken: string;
 }
@@ -21,4 +26,7 @@ export interface IAuthSchema {
   isLoading: boolean;
   error: AxiosError | null;
   success: ISuccess | null;
+  id: string;
+  roles: string[];
+  accessToken: string;
 }

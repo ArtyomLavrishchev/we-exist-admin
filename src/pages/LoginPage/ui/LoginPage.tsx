@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getIsAuth, LoginCard } from 'entities/LoginCard';
+import { getIsAuth, RegisterOrLoginCard } from 'entities/LoginCard';
 
 import styles from './LoginPage.module.scss';
 
@@ -18,7 +18,7 @@ export const LoginPage: FC = () => {
 
   return (
     <div className={styles.main}>
-      <LoginCard />
+      <RegisterOrLoginCard />
     </div>
   );
 };

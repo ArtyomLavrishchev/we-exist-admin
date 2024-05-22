@@ -1,28 +1,30 @@
 import authApi from 'api/authApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { loadInitialData } from 'entities/LoginCard';
 
-interface ITokenData {
+export interface ITokenData {
   exp: number;
   iat: number;
-  jti: string;
-  token_type: string;
-  user_id: string;
+  email: string;
+  id: string;
+  roles: string[];
+  accessToken: string;
 }
+
 export const authCheck = createAsyncThunk<
-  boolean,
+  false | ITokenData,
   undefined,
   { rejectValue: string }
->('auth/authCheck', async (_, { rejectWithValue, dispatch }) => {
+>('auth/authCheck', async (_, { rejectWithValue }) => {
   try {
-    const response = await authApi.refresh();
-    if (response.data.access) {
+    const { data } = await authApi.refresh();
+    if (data.accessToken) {
+      const { accessToken } = data;
       const tokenData = JSON.parse(
-        window.atob(response.data.access.split('.')[1])
-      ) as ITokenData;
-      localStorage.setItem('access_token', response.data.access);
-      await dispatch(loadInitialData(tokenData.user_id));
-      return tokenData.exp * 1000 >= new Date().getTime();
+        window.atob(accessToken.split('.')[1])
+      ) as Omit<ITokenData, 'accessToken'>;
+      return tokenData.exp * 1000 >= new Date().getTime()
+        ? { accessToken, ...tokenData }
+        : false;
     }
     return false;
   } catch (error) {

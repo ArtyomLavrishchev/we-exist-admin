@@ -1,0 +1,13 @@
+.container {
+  & .body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  & .selectContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}

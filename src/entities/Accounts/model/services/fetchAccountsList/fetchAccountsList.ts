@@ -1,15 +1,16 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IAccount } from 'entities/Accounts';
 import { AxiosError } from 'axios';
 import usersApi from 'api/usersApi';
+import { IAccounts } from 'entities/Accounts';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IFetchTableParams } from 'entities/Orders';
 
 export const fetchAccountsList = createAsyncThunk<
-  IAccount[],
-  undefined,
+  IAccounts,
+  IFetchTableParams,
   { rejectValue: AxiosError | null }
->('accounts/fetchAccountsList', async (_, { rejectWithValue }) => {
+>('accounts/fetchAccountsList', async (params, { rejectWithValue }) => {
   try {
-    const { data } = await usersApi.fetchAccountsList();
+    const { data } = await usersApi.fetchAccountsList(params);
     return data;
   } catch (error) {
     let err = null;

@@ -1,33 +1,27 @@
 import authApi from 'api/authApi';
 import { AxiosError } from 'axios';
+import { ILoginPayload } from 'entities/LoginCard';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { openNotification } from 'entities/LoginCard/model/utils';
-import { ILoginPayload, ISuccess, loadInitialData } from 'entities/LoginCard';
+import { ITokenData } from 'entities/LoginCard/model/services/authCheck/authCheck';
 
 export const login = createAsyncThunk<
-  ISuccess,
+  ITokenData,
   ILoginPayload,
   { rejectValue: AxiosError }
->(
-  'auth/login',
-  async (payload: ILoginPayload, { rejectWithValue, dispatch }) => {
-    try {
-      const { data } = await authApi.login(payload);
-      const { accessToken } = data;
-      localStorage.setItem('access_token', accessToken);
-      const success = {
-        status: '200',
-        text: 'Успешная авторизация',
-      };
-      const tokenData: { user_id: string } = JSON.parse(
-        atob(accessToken.split('.')[1])
-      );
-      await dispatch(loadInitialData(tokenData.user_id));
-      openNotification(success.text, 'topRight', '', 'success');
-      return success;
-    } catch (error) {
-      openNotification('Ошибка авторизации', 'topRight', '', 'error');
-      return rejectWithValue(error as AxiosError);
-    }
+>('auth/login', async (payload: ILoginPayload, { rejectWithValue }) => {
+  try {
+    const { data } = await authApi.login(payload);
+
+    const { accessToken } = data;
+
+    const tokenData = JSON.parse(
+      window.atob(accessToken.split('.')[1])
+    ) as Omit<ITokenData, 'accessToken'>;
+    openNotification('Успешная авторизация', 'topRight', '', 'success');
+    return { accessToken, ...tokenData };
+  } catch (error) {
+    openNotification('Ошибка авторизации', 'topRight', '', 'error');
+    return rejectWithValue(error as AxiosError);
   }
-);
+});

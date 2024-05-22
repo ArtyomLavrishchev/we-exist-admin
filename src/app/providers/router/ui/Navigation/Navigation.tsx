@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { SideBar } from 'features/SideBar';
 import { Spinner } from 'shared/ui/Spinner';
 import { FC, useEffect, useState } from 'react';
-import { BreadCrumb } from 'features/BreadCrumb';
 import { ErrorBoundary } from 'pages/ErrorBoundary';
 import { getAuthLoading } from 'entities/LoginCard';
 import { getDefaultSelectedKeys } from 'shared/utils';
@@ -33,7 +32,6 @@ export const Navigation: FC = () => {
       <Layout className={styles.main}>
         <SideBar selectedKeys={selectedKeys} />
         <Layout style={{ padding: '0 24px 24px' }}>
-          <BreadCrumb />
           <Content className={styles.content}>
             <ErrorBoundary>
               <Outlet />

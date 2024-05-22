@@ -1,14 +1,19 @@
+import {
+  TeamOutlined,
+  DashboardOutlined,
+  SnippetsOutlined,
+} from '@ant-design/icons';
 import { Menu } from 'antd';
 import { FC, useState } from 'react';
 import Sider from 'antd/es/layout/Sider';
 import { SelectInfo } from 'rc-menu/lib/interface';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { TeamOutlined, DashboardOutlined } from '@ant-design/icons';
 import { getDefaultOpenKeys, getItem, MenuItem } from 'shared/utils';
 
 const items: MenuItem[] = [
   getItem('Главная', '/', <DashboardOutlined />),
   getItem('Пользователи', 'accounts', <TeamOutlined />),
+  getItem('Заявки', 'orders', <SnippetsOutlined />),
 ];
 
 interface ISideBar {

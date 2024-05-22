@@ -18,11 +18,7 @@ interface ITopBar {
 export const TopBar: FC<ITopBar> = ({ selectedKeys }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const items: MenuProps['items'] = [
-    getItem('Главная', '/'),
-    getItem('Личные данные', 'profile'),
-    getItem('Выход', 'logout'),
-  ];
+  const items: MenuProps['items'] = [getItem('Выход', 'logout')];
 
   const handleSelect = (e: SelectInfo) => {
     if (e.key === 'logout') {
@@ -35,7 +31,7 @@ export const TopBar: FC<ITopBar> = ({ selectedKeys }) => {
   return (
     <Header className="header">
       <Text className={styles.headerText} strong>
-        Geo MVP
+        Я ★ ЕСТЬ
       </Text>{' '}
       <Text className={styles.headerText}>Admin</Text>
       <Menu
@@ -45,7 +41,7 @@ export const TopBar: FC<ITopBar> = ({ selectedKeys }) => {
         theme="dark"
         mode="horizontal"
         items={items}
-        style={{ float: 'right', maxWidth: '250px' }}
+        style={{ float: 'right', maxWidth: '3000px' }}
         onSelect={handleSelect}
       />
     </Header>

@@ -1,3 +1,4 @@
+import { store } from 'app/providers/StoreProvider';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 import authApi from './authApi';
@@ -21,7 +22,8 @@ instance.defaults.headers.put['Content-Type'] = 'application/json';
 instance.interceptors.request.use(
   (res) => {
     const request: InternalAxiosRequestConfig = res;
-    const token = localStorage.getItem('access_token');
+    const state = store.getState();
+    const token = state.auth.accessToken;
     if (token && request.headers) {
       request.headers.Authorization = `Bearer ${token}`;
     }
@@ -45,18 +47,11 @@ instance.interceptors.response.use(
     ) {
       originalRequest.isRetry = true;
       try {
-        const refresh = localStorage.getItem('refresh_token');
-        if (refresh) {
-          const response = await authApi.refresh();
-          localStorage.setItem('access_token', response.data.access);
-          return instance.request(originalRequest);
-        }
+        await authApi.refresh();
+        return instance.request(originalRequest);
       } catch (e) {
         return Promise.reject(e);
       }
-    } else {
-      // localStorage.removeItem('access_token');
-      // localStorage.removeItem('refresh_token');
     }
     return Promise.reject(error);
   }

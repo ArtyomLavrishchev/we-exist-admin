@@ -2,13 +2,13 @@ import {
   IAccountsSchema,
   fetchUserAccount,
   fetchAccountsList,
+  updateUserAccount,
 } from 'entities/Accounts';
 import { AxiosError } from 'axios';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: IAccountsSchema = {
   accounts: null,
-  clients: null,
   userAccount: null,
   isLoading: false,
   error: null,
@@ -24,14 +24,27 @@ export const accountsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAccountsList.fulfilled, (state, { payload }) => {
-        const clients = payload.filter(
-          (el) => !el.is_staff && !el.is_admin && !el.is_superuser
-        );
         state.accounts = payload;
-        state.clients = clients;
         state.isLoading = false;
       })
       .addCase(fetchAccountsList.rejected, (state, { payload }) => {
+        state.error = payload ?? ({ message: 'Ошибка сервера' } as AxiosError);
+        state.isLoading = false;
+      })
+      .addCase(updateUserAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUserAccount.fulfilled, (state, { payload }) => {
+        state.accounts = {
+          ...state.accounts,
+          data:
+            state.accounts?.data.map((acc) =>
+              acc.id === payload.id ? payload : acc
+            ) ?? [],
+        };
+        state.isLoading = false;
+      })
+      .addCase(updateUserAccount.rejected, (state, { payload }) => {
         state.error = payload || ({ message: 'Ошибка сервера' } as AxiosError);
         state.isLoading = false;
       })

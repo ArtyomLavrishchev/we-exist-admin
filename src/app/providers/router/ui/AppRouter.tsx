@@ -1,5 +1,6 @@
 import LoginPage from 'pages/LoginPage';
 import { MainPage } from 'pages/MainPage';
+import { OrdersPage } from 'pages/OrdersPage';
 import { AccountPage } from 'pages/AccountPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { NotFoundPage } from 'pages/NotFoundPage';
@@ -22,6 +23,7 @@ const AppRouter = () => {
           >
             <Route index element={<MainPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="orders" element={<OrdersPage />} />
             <Route path="/accounts">
               <Route path="" element={<AccountsPage />} />
               <Route path=":accountName" element={<AccountPage />} />
